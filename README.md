@@ -4,7 +4,6 @@
 2. 修复了部分bug。
 
 ---
----
 
 # **THE FARM IN WORD**
 
