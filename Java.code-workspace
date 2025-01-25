@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"github-enterprise.uri": "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",
+		"java.project.referencedLibraries": [
+			"lib/**/*.jar",
+			"e:\\code\\Java\\lib\\jackson-annotations-2.9.9.jar",
+			"e:\\code\\Java\\lib\\jackson-core-2.9.9.jar",
+			"e:\\code\\Java\\lib\\jackson-databind-2.9.9.3.jar"
+		]
+	}
+}
