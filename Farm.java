@@ -200,7 +200,7 @@ class Farm {
             }
             LastMove = System.currentTimeMillis();
             lastStepTime = System.currentTimeMillis();
-            String nextInterface = "World";
+            String nextInterface = "Warehouse";
             while (!nextInterface.equals("")) {
                 if (nextInterface.equals("Warehouse")) {
                     nextInterface = theWarehouse();
@@ -212,9 +212,10 @@ class Farm {
                     nextInterface = theKitchen();
                 } else if (nextInterface.equals("Pasture")) {
                     nextInterface = thePasture();
-                } else if (nextInterface.equals("World")) {
-                    nextInterface = MapMode();
-                }
+                } 
+                // else if (nextInterface.equals("World")) {
+                //     nextInterface = MapMode();
+                // }
             }
             save(saveName);
             showAWordForSomeSeconds("存档中……", 0.5);
@@ -241,7 +242,7 @@ class Farm {
                 || (informations.equals("enterSellVegType") && nowStep == 15)
                 || (informations.equals("enterSellVegNum") && nowStep == 16)
                 || (informations.equals("getMoney") && nowStep == 17)
-                || (informations.equals("toWorld") && nowStep == 18)
+                // || (informations.equals("toWorld") && nowStep == 18)
                 || (informations.equals("FINISHTEACHING") && nowStep == 19);
         if (checkRR) {
             nextTeaching();
@@ -570,7 +571,8 @@ class Farm {
         });
         world.allRefresh();
         World.Posision a = new World.Posision(0, 0);
-        newPlayerTeacherP("toWorld");
+        // newPlayerTeacherP("toWorld");
+        newPlayerTeacherP("FINISHTEACHING");
         int code = 0;
         while (run) {
             update();
@@ -843,22 +845,24 @@ class Farm {
                 achievementList.add(achi);
             }
             screen.showScreen();
-            // world
-            FarmData.World worldg = data.getWorld();
-            World.Posision playerp = World.createPosision(worldg.getX(), worldg.getY());
-            seed = worldg.getSeed();
-            world = new World(Weight * 2, Height * 2, World.createPosision(playerp.x - Weight, playerp.y + Height),
-                    playerp, seed);
-            screen.showScreen();
-            // stock
-            File fileS = new File(currentDirectory + "\\" + saveS + "\\stock.json");
-            StockData dataS = mapper.readValue(fileS, StockData.class);
-            for (StockData.InnerStockData s : dataS.getStock()) {
-                Stock stock = new Stock(s.getName(), s.getPrice(), s.getHave(), s.getSeed());
-                stockList.add(stock);
-            }
+            // // world
+            // FarmData.World worldg = data.getWorld();
+            // World.Posision playerp = World.createPosision(worldg.getX(), worldg.getY());
+            // seed = worldg.getSeed();
+            // world = new World(Weight * 2, Height * 2, World.createPosision(playerp.x - Weight, playerp.y + Height),
+            //         playerp, seed);
+            // screen.showScreen();
+            // // stock
+            // File fileS = new File(currentDirectory + "\\" + saveS + "\\stock.json");
+            // StockData dataS = mapper.readValue(fileS, StockData.class);
+            // for (StockData.InnerStockData s : dataS.getStock()) {
+            //     Stock stock = new Stock(s.getName(), s.getPrice(), s.getHave(), s.getSeed());
+            //     stockList.add(stock);
+            // }
         } catch (Exception e) {
+            System.out.println("Because:");
             e.printStackTrace();
+            System.out.println("Create a new save");
             screen.showScreen();
             clearAll();
             vagetablesList.add(new Vagetables("NONE"));
@@ -1056,9 +1060,9 @@ class Farm {
                     "4.进入农场",
                     "5.随机购买动物(￥" + (long) Math.floor(10000 * levelShow) + "/个)",
                     "6.查看动物市场价格",
-                    "7.进入世界",
-                    "8.存档并退出农场",
-                    "9.重置存档"
+                    // "7.进入世界",
+                    "7.存档并退出农场",
+                    "8.重置存档"
             };
             for (int i = 0; i < needprint.length; i++) {
                 String p = needprint[i];
@@ -1254,14 +1258,14 @@ class Farm {
                     }
                     getAchievement("All");
                     break;
+                // case 7:
+                //     nextInterface = "World";
+                //     run = false;
+                //     break;
                 case 7:
-                    nextInterface = "World";
                     run = false;
                     break;
                 case 8:
-                    run = false;
-                    break;
-                case 9:
                     rebuild();
                     break;
                 default:
@@ -1597,8 +1601,8 @@ class Farm {
                     "2.购买食材",
                     "3.返回仓库",
                     "4.雇佣员工",
-                    "5.查看股票",
-                    "6.存档并退出游戏"
+                    // "5.查看股票",
+                    "5.存档并退出游戏"
             };
             for (int i = 0; i < needprint.length; i++) {
                 String p = needprint[i];
@@ -1842,167 +1846,167 @@ class Farm {
                             break;
                     }
                     break;
+                // case 5:
+                //     int nowS = 0;
+                //     while (true) {
+                //         update();
+                //         screen.addWords(NewUnicodeScreen.LIGHT_GREEN, halfWeight, 3,
+                //                 "钱包：" + money + "元  Level " + levelShow +
+                //                         "        当前已购买 " + stockList.size() + " 股股票[" + (nowS + 1) + "/"
+                //                         + (stockList.size() + 1)
+                //                         + "]");
+                //         if (nowS < stockList.size()) {
+                //             int changes = showStock(stockList.get(nowS).getSeed());
+                //             screen.addWords(halfWeight - 6, Height - 6, "当前股票：" + stockList.get(nowS).getName(), "l");
+                //             screen.addWords(halfWeight - 6, Height - 5,
+                //                     "当前持有量：" + stockList.get(nowS).getHave() + " [B]购入 [S]抛售", "l");
+                //             screen.addWords(1, halfHeight, "[A]<", "l");
+                //             screen.addWords(Weight + 1, halfHeight, ">[D]", "r");
+                //             String color;
+                //             if (changes > 0) {
+                //                 color = NewUnicodeScreen.GREEN;
+                //             } else {
+                //                 color = NewUnicodeScreen.RED;
+                //             }
+                //             screen.addWords(halfWeight - 6, Height - 4, "最近变化：" + changes * getUpPrice(), "l",
+                //                     color);
+                //         } else {
+                //             screen.addWords(halfWeight, halfHeight, "按 Enter 购入新股票");
+                //             screen.addWords(1, halfHeight, "[A]<", "l");
+                //             screen.addWords(Weight + 1, halfHeight, ">[D]", "r");
+                //         }
+                //         screen.addWords(Weight + 1, Height - 2,
+                //                 "按下 ESC 退出", "r", NewUnicodeScreen.RED);
+                //         String resultKeyR = screen.getFunctionReturn();
+                //         if (resultKeyR.equals("D") && nowS < stockList.size()) {
+                //             nowS++;
+                //         } else if (resultKeyR.equals("A") && nowS > 0) {
+                //             nowS--;
+                //         } else if (resultKeyR.equals("Escape")) {
+                //             break;
+                //         } else if (resultKeyR.equals("B") && nowS < stockList.size()) {
+                //             if (stockList.get(nowS).getPrice() <= 0) {
+                //                 showAWordForSomeSeconds("当前不可购买", 1);
+                //                 break;
+                //             }
+                //             int biggest = (int) (money
+                //                     / (stockList.get(nowS).getPrice((int) (gameTimeLastUpdate / aDay)) * getUpPrice()));
+                //             setInput();
+                //             while (true) {
+                //                 screen.addWords(NewUnicodeScreen.LIGHT_GREEN, halfWeight, halfHeight - 4,
+                //                         "钱包：" + money + "元  Level " + levelShow);
+                //                 screen.addWords(halfWeight, halfHeight - 3,
+                //                         "当前最大可购买 " + biggest + " 股");
+                //                 screen.addWords(halfWeight, halfHeight,
+                //                         "请输入购买数量：");
+                //                 screen.addWords(halfWeight, halfHeight + 1, input.get(0));
+                //                 input = getEnterNumber(input.get(0));
+                //                 if (input.get(1).equals("T")) {
+                //                     break;
+                //                 }
+                //                 screen.showScreen();
+                //             }
+                //             int num = Integer.valueOf(input.get(0));
+                //             if (num < 0 || num > biggest) {
+                //                 showAWordForSomeSeconds("输入无效或资金不足", 1);
+                //             } else {
+                //                 buyStock(num, stockList.get(nowS).getName());
+                //                 showAWordForSomeSeconds("购入成功", 1);
+                //             }
+                //         } else if (resultKeyR.equals("S") && nowS < stockList.size()) {
+                //             setInput();
+                //             while (true) {
+                //                 screen.addWords(NewUnicodeScreen.LIGHT_GREEN, halfWeight, halfHeight - 4,
+                //                         "钱包：" + money + "元  Level " + levelShow);
+                //                 screen.addWords(halfWeight, halfHeight - 3,
+                //                         "当前共有 " + stockList.get(nowS).getHave() + " 股");
+                //                 screen.addWords(halfWeight, halfHeight - 1,
+                //                         "请输入抛售数量：");
+                //                 screen.addWords(halfWeight, halfHeight, input.get(0));
+                //                 input = getEnterNumber(input.get(0));
+                //                 if (input.get(1).equals("T")) {
+                //                     break;
+                //                 }
+                //                 screen.showScreen();
+                //             }
+                //             int num = Integer.valueOf(input.get(0));
+                //             if (num < 0 || num > stockList.get(nowS).getHave()) {
+                //                 showAWordForSomeSeconds("输入无效", 1);
+                //             } else {
+                //                 sellStock(num, stockList.get(nowS).getName());
+                //                 showAWordForSomeSeconds("抛售成功", 1);
+                //             }
+                //         } else if (resultKeyR.equals("Enter") && nowS == stockList.size()) {
+                //             showAWordForSomeSeconds("正在查询新股票……", 1);
+                //             Stock newStock = new Stock(vagetables[random.nextInt(vagetables.length - 1)]
+                //                     + foodsList[random.nextInt(foodsList.length - 1)]
+                //                     + animals[random.nextInt(animals.length - 1)], 0, 0, random.nextInt());
+                //             while (true) {
+                //                 update();
+                //                 screen.addWords(NewUnicodeScreen.LIGHT_GREEN, halfWeight, 4,
+                //                         "钱包：" + money + "元  Level " + levelShow);
+                //                 newStock.price = newStock.getPrice((int) (gameTimeLastUpdate / aDay));
+                //                 int changes = showStock(newStock.getSeed());
+                //                 screen.addWords(halfWeight - 6, Height - 6, "当前股票：" + newStock.getName(),
+                //                         "l");
+                //                 String color;
+                //                 if (changes > 0) {
+                //                     color = NewUnicodeScreen.GREEN;
+                //                 } else {
+                //                     color = NewUnicodeScreen.RED;
+                //                 }
+                //                 screen.addWords(halfWeight - 6, Height - 5, "最近变化：" + changes * getUpPrice(), "l",
+                //                         color);
+                //                 screen.addWords(halfWeight, Height - 4, "[C]更换 [B]购入");
+                //                 screen.addWords(Weight + 1, Height - 2,
+                //                         "按下 ESC 退出", "r", NewUnicodeScreen.RED);
+                //                 screen.showScreen();
+                //                 resultKeyR = screen.getFunctionReturn();
+                //                 if (resultKeyR.equals("Escape")) {
+                //                     break;
+                //                 } else if (resultKeyR.equals("C")) {
+                //                     showAWordForSomeSeconds("正在查询新股票……", 1);
+                //                     newStock.name = vagetables[random.nextInt(vagetables.length - 1)]
+                //                             + foodsList[random.nextInt(foodsList.length - 1)]
+                //                             + animals[random.nextInt(animals.length - 1)];
+                //                     newStock.seed = random.nextInt();
+                //                 } else if (resultKeyR.equals("B")) {
+                //                     if (newStock.getPrice() <= 0) {
+                //                         showAWordForSomeSeconds("当前不可购买", 1);
+                //                         break;
+                //                     }
+                //                     int biggest = (int) (money
+                //                             / (newStock.getPrice((int) (gameTimeLastUpdate / aDay)) * getUpPrice()));
+                //                     setInput();
+                //                     while (true) {
+                //                         screen.addWords(NewUnicodeScreen.LIGHT_GREEN, halfWeight, halfHeight - 4,
+                //                                 "钱包：" + money + "元  Level " + levelShow);
+                //                         screen.addWords(halfWeight, halfHeight - 3,
+                //                                 "当前最大可购买 " + biggest + " 股");
+                //                         screen.addWords(halfWeight, halfHeight - 1,
+                //                                 "请输入购买数量：");
+                //                         screen.addWords(halfWeight, halfHeight, input.get(0));
+                //                         input = getEnterNumber(input.get(0));
+                //                         if (input.get(1).equals("T")) {
+                //                             break;
+                //                         }
+                //                         screen.showScreen();
+                //                     }
+                //                     int num = Integer.valueOf(input.get(0));
+                //                     if (num < 0 || num > biggest) {
+                //                         showAWordForSomeSeconds("输入无效或资金不足", 1);
+                //                     } else {
+                //                         buyStock(num, newStock.getName(), newStock.getPrice(), newStock.getSeed());
+                //                         showAWordForSomeSeconds("购入成功", 1);
+                //                         break;
+                //                     }
+                //                 }
+                //             }
+                //         }
+                //         screen.showScreen();
+                //     }
+                //     break;
                 case 5:
-                    int nowS = 0;
-                    while (true) {
-                        update();
-                        screen.addWords(NewUnicodeScreen.LIGHT_GREEN, halfWeight, 3,
-                                "钱包：" + money + "元  Level " + levelShow +
-                                        "        当前已购买 " + stockList.size() + " 股股票[" + (nowS + 1) + "/"
-                                        + (stockList.size() + 1)
-                                        + "]");
-                        if (nowS < stockList.size()) {
-                            int changes = showStock(stockList.get(nowS).getSeed());
-                            screen.addWords(halfWeight - 6, Height - 6, "当前股票：" + stockList.get(nowS).getName(), "l");
-                            screen.addWords(halfWeight - 6, Height - 5,
-                                    "当前持有量：" + stockList.get(nowS).getHave() + " [B]购入 [S]抛售", "l");
-                            screen.addWords(1, halfHeight, "[A]<", "l");
-                            screen.addWords(Weight + 1, halfHeight, ">[D]", "r");
-                            String color;
-                            if (changes > 0) {
-                                color = NewUnicodeScreen.GREEN;
-                            } else {
-                                color = NewUnicodeScreen.RED;
-                            }
-                            screen.addWords(halfWeight - 6, Height - 4, "最近变化：" + changes * getUpPrice(), "l",
-                                    color);
-                        } else {
-                            screen.addWords(halfWeight, halfHeight, "按 Enter 购入新股票");
-                            screen.addWords(1, halfHeight, "[A]<", "l");
-                            screen.addWords(Weight + 1, halfHeight, ">[D]", "r");
-                        }
-                        screen.addWords(Weight + 1, Height - 2,
-                                "按下 ESC 退出", "r", NewUnicodeScreen.RED);
-                        String resultKeyR = screen.getFunctionReturn();
-                        if (resultKeyR.equals("D") && nowS < stockList.size()) {
-                            nowS++;
-                        } else if (resultKeyR.equals("A") && nowS > 0) {
-                            nowS--;
-                        } else if (resultKeyR.equals("Escape")) {
-                            break;
-                        } else if (resultKeyR.equals("B") && nowS < stockList.size()) {
-                            if (stockList.get(nowS).getPrice() <= 0) {
-                                showAWordForSomeSeconds("当前不可购买", 1);
-                                break;
-                            }
-                            int biggest = (int) (money
-                                    / (stockList.get(nowS).getPrice((int) (gameTimeLastUpdate / aDay)) * getUpPrice()));
-                            setInput();
-                            while (true) {
-                                screen.addWords(NewUnicodeScreen.LIGHT_GREEN, halfWeight, halfHeight - 4,
-                                        "钱包：" + money + "元  Level " + levelShow);
-                                screen.addWords(halfWeight, halfHeight - 3,
-                                        "当前最大可购买 " + biggest + " 股");
-                                screen.addWords(halfWeight, halfHeight,
-                                        "请输入购买数量：");
-                                screen.addWords(halfWeight, halfHeight + 1, input.get(0));
-                                input = getEnterNumber(input.get(0));
-                                if (input.get(1).equals("T")) {
-                                    break;
-                                }
-                                screen.showScreen();
-                            }
-                            int num = Integer.valueOf(input.get(0));
-                            if (num < 0 || num > biggest) {
-                                showAWordForSomeSeconds("输入无效或资金不足", 1);
-                            } else {
-                                buyStock(num, stockList.get(nowS).getName());
-                                showAWordForSomeSeconds("购入成功", 1);
-                            }
-                        } else if (resultKeyR.equals("S") && nowS < stockList.size()) {
-                            setInput();
-                            while (true) {
-                                screen.addWords(NewUnicodeScreen.LIGHT_GREEN, halfWeight, halfHeight - 4,
-                                        "钱包：" + money + "元  Level " + levelShow);
-                                screen.addWords(halfWeight, halfHeight - 3,
-                                        "当前共有 " + stockList.get(nowS).getHave() + " 股");
-                                screen.addWords(halfWeight, halfHeight - 1,
-                                        "请输入抛售数量：");
-                                screen.addWords(halfWeight, halfHeight, input.get(0));
-                                input = getEnterNumber(input.get(0));
-                                if (input.get(1).equals("T")) {
-                                    break;
-                                }
-                                screen.showScreen();
-                            }
-                            int num = Integer.valueOf(input.get(0));
-                            if (num < 0 || num > stockList.get(nowS).getHave()) {
-                                showAWordForSomeSeconds("输入无效", 1);
-                            } else {
-                                sellStock(num, stockList.get(nowS).getName());
-                                showAWordForSomeSeconds("抛售成功", 1);
-                            }
-                        } else if (resultKeyR.equals("Enter") && nowS == stockList.size()) {
-                            showAWordForSomeSeconds("正在查询新股票……", 1);
-                            Stock newStock = new Stock(vagetables[random.nextInt(vagetables.length - 1)]
-                                    + foodsList[random.nextInt(foodsList.length - 1)]
-                                    + animals[random.nextInt(animals.length - 1)], 0, 0, random.nextInt());
-                            while (true) {
-                                update();
-                                screen.addWords(NewUnicodeScreen.LIGHT_GREEN, halfWeight, 4,
-                                        "钱包：" + money + "元  Level " + levelShow);
-                                newStock.price = newStock.getPrice((int) (gameTimeLastUpdate / aDay));
-                                int changes = showStock(newStock.getSeed());
-                                screen.addWords(halfWeight - 6, Height - 6, "当前股票：" + newStock.getName(),
-                                        "l");
-                                String color;
-                                if (changes > 0) {
-                                    color = NewUnicodeScreen.GREEN;
-                                } else {
-                                    color = NewUnicodeScreen.RED;
-                                }
-                                screen.addWords(halfWeight - 6, Height - 5, "最近变化：" + changes * getUpPrice(), "l",
-                                        color);
-                                screen.addWords(halfWeight, Height - 4, "[C]更换 [B]购入");
-                                screen.addWords(Weight + 1, Height - 2,
-                                        "按下 ESC 退出", "r", NewUnicodeScreen.RED);
-                                screen.showScreen();
-                                resultKeyR = screen.getFunctionReturn();
-                                if (resultKeyR.equals("Escape")) {
-                                    break;
-                                } else if (resultKeyR.equals("C")) {
-                                    showAWordForSomeSeconds("正在查询新股票……", 1);
-                                    newStock.name = vagetables[random.nextInt(vagetables.length - 1)]
-                                            + foodsList[random.nextInt(foodsList.length - 1)]
-                                            + animals[random.nextInt(animals.length - 1)];
-                                    newStock.seed = random.nextInt();
-                                } else if (resultKeyR.equals("B")) {
-                                    if (newStock.getPrice() <= 0) {
-                                        showAWordForSomeSeconds("当前不可购买", 1);
-                                        break;
-                                    }
-                                    int biggest = (int) (money
-                                            / (newStock.getPrice((int) (gameTimeLastUpdate / aDay)) * getUpPrice()));
-                                    setInput();
-                                    while (true) {
-                                        screen.addWords(NewUnicodeScreen.LIGHT_GREEN, halfWeight, halfHeight - 4,
-                                                "钱包：" + money + "元  Level " + levelShow);
-                                        screen.addWords(halfWeight, halfHeight - 3,
-                                                "当前最大可购买 " + biggest + " 股");
-                                        screen.addWords(halfWeight, halfHeight - 1,
-                                                "请输入购买数量：");
-                                        screen.addWords(halfWeight, halfHeight, input.get(0));
-                                        input = getEnterNumber(input.get(0));
-                                        if (input.get(1).equals("T")) {
-                                            break;
-                                        }
-                                        screen.showScreen();
-                                    }
-                                    int num = Integer.valueOf(input.get(0));
-                                    if (num < 0 || num > biggest) {
-                                        showAWordForSomeSeconds("输入无效或资金不足", 1);
-                                    } else {
-                                        buyStock(num, newStock.getName(), newStock.getPrice(), newStock.getSeed());
-                                        showAWordForSomeSeconds("购入成功", 1);
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                        screen.showScreen();
-                    }
-                    break;
-                case 6:
                     nextInterface = "";
                     run = false;
                     break;
@@ -2311,9 +2315,9 @@ class Farm {
                     "4.进入农场",
                     "5.进入牧场",
                     "6.进入厨房",
-                    "7.进入世界",
-                    "8.存档并退出游戏",
-                    "9.重置存档"
+                    // "7.进入世界",
+                    "7.存档并退出游戏",
+                    "8.重置存档"
             };
             for (int i = 0; i < needprint.length; i++) {
                 String p = needprint[i];
@@ -2543,15 +2547,15 @@ class Farm {
                     nextInterface = "Kitchen";
                     run = false;
                     break;
+                // case 7:
+                //     nextInterface = "World";
+                //     run = false;
+                //     break;
                 case 7:
-                    nextInterface = "World";
-                    run = false;
-                    break;
-                case 8:
                     nextInterface = "";
                     run = false;
                     break;
-                case 9:
+                case 8:
                     rebuild();
                     break;
                 default:
@@ -2589,10 +2593,10 @@ class Farm {
                     "6.查看作物市场价格",
                     "7.进入仓库",
                     "8.进入牧场",
-                    "9.进入世界",
-                    "10.设置",
-                    "11.存档并退出农场",
-                    "12.重置存档"
+                    // "9.进入世界",
+                    "9.设置",
+                    "10.存档并退出农场",
+                    "11.重置存档"
             };
             for (int i = 0; i < needprint.length; i++) {
                 String p = needprint[i];
@@ -3077,11 +3081,11 @@ class Farm {
                     nextInterface = "Pasture";
                     run = false;
                     break;
+                // case 9:
+                //     nextInterface = "World";
+                //     run = false;
+                //     break;
                 case 9:
-                    nextInterface = "World";
-                    run = false;
-                    break;
-                case 10:
                     int nowChoiceHelp = 0;
                     int c = 0;
                     while (true) {
@@ -3342,10 +3346,10 @@ class Farm {
                         }
                     }
                     break;
-                case 11:
+                case 10:
                     run = false;
                     break;
-                case 12:
+                case 11:
                     rebuild();
                     break;
                 default:
@@ -3694,7 +3698,7 @@ class Farm {
                 }
 
                 // 股票
-                stockList.forEach(s -> s.price = s.getPrice((int) (gameTimeLastUpdate / aDay)));
+                // stockList.forEach(s -> s.price = s.getPrice((int) (gameTimeLastUpdate / aDay)));
 
                 // 缓存仓库中的食物
                 List<Food> availableFoods = new ArrayList<>();
@@ -4058,12 +4062,12 @@ class Farm {
             achievement.add(inf);
         }
         // world
-        Map<String, Object> worldMap = new HashMap<>();
-        worldMap.put("x", world.playerPosision.x);
-        worldMap.put("y", world.playerPosision.y);
-        worldMap.put("seed", seed);
+        // Map<String, Object> worldMap = new HashMap<>();
+        // worldMap.put("x", world.playerPosision.x);
+        // worldMap.put("y", world.playerPosision.y);
+        // worldMap.put("seed", seed);
         // all
-        data.put("world", worldMap);
+        // data.put("world", worldMap);
         data.put("Achievement", achievement);
         data.put("Employee", employee);
         data.put("Warehouse", warehouse);
@@ -4071,27 +4075,27 @@ class Farm {
         data.put("farm", farm);
         data.put("setting", setting);
         // stock
-        Map<String, Object> stocks = new HashMap<>();
-        List<Map<String, Object>> stoList = new ArrayList<>();
-        for (Stock st : stockList) {
-            Map<String, Object> stoin = new HashMap<>();
-            stoin.put("name", st.getName());
-            stoin.put("price", st.getPrice());
-            stoin.put("have", st.getHave());
-            stoin.put("seed", st.getSeed());
-            stoList.add(stoin);
-        }
-        stocks.put("stock", stoList);
+        // Map<String, Object> stocks = new HashMap<>();
+        // List<Map<String, Object>> stoList = new ArrayList<>();
+        // for (Stock st : stockList) {
+        //     Map<String, Object> stoin = new HashMap<>();
+        //     stoin.put("name", st.getName());
+        //     stoin.put("price", st.getPrice());
+        //     stoin.put("have", st.getHave());
+        //     stoin.put("seed", st.getSeed());
+        //     stoList.add(stoin);
+        // }
+        // stocks.put("stock", stoList);
         // save
-        try {
-            File fileData = new File(currentDirectory + "\\" + saveS + "\\stock.json");
-            if (!fileData.exists()) {
-                fileData.createNewFile();
-            }
-            mapper.writeValue(fileData, stocks);
-        } catch (IOException e) {
-            showAWordForSomeSeconds(e.getMessage(), 0.5);
-        }
+        // try {
+        //     File fileData = new File(currentDirectory + "\\" + saveS + "\\stock.json");
+        //     if (!fileData.exists()) {
+        //         fileData.createNewFile();
+        //     }
+        //     mapper.writeValue(fileData, stocks);
+        // } catch (IOException e) {
+        //     showAWordForSomeSeconds(e.getMessage(), 0.5);
+        // }
         try {
             File fileData = new File(currentDirectory + "\\" + saveS + "\\locals.json");
             if (!fileData.exists()) {

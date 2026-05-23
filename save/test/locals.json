@@ -1,0 +1,23 @@
+{
+    "Warehouse": [],
+    "Employee": [],
+    "Animal": [],
+    "farm": [
+        {
+            "Grow": 0,
+            "Soil": "YELLOW",
+            "x": 0,
+            "y": 0,
+            "Vagetable": "NONE"
+        }
+    ],
+    "Achievement": [],
+    "setting": {
+        "money": 15,
+        "LastUpdateTime": 1778976632284,
+        "level": 0,
+        "step": 21,
+        "time": 10079,
+        "version": "11.0"
+    }
+}
